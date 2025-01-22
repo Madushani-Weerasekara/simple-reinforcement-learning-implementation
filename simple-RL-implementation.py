@@ -39,7 +39,7 @@ class SampleEnvironment:
 
         if self.is_done():
             raise Exception("Game is over")  # Raise an exception if no steps are left
-        self.steps_left -+ 1
+        self.steps_left -= 1
         return random.random() # Return a random reward between 0 and 1
     
 
@@ -60,8 +60,8 @@ class Agent:
         :param env: The environment in which the agent is acting
         """
         # Get the current observation from the environment
-        curresnt_obs = env.get_observation()
-        print(curresnt_obs) # Print the current observation
+        current_obs = env.get_observation()
+        print("Observation", current_obs) # Print the current observation
 
         # Get the list of possible actions from the environment
         actions = env.get_actions()
@@ -70,4 +70,30 @@ class Agent:
         reward = env.action(random.choice(actions))
 
         # Add the received reward to the agent's total reward
-        self.total_reward += 1
+        self.total_reward += reward
+        print(f"Reward received this step: {reward:.4f}")
+
+if __name__ == "__main__":
+    """
+    Entry point of the program. Initializes the environment and the agent,
+    and runs the agent in the environment until the environment is done.
+    """
+    # Create an instance of the environment
+    env = SampleEnvironment()
+
+    # Create an instance of the Agent
+    agent = Agent()
+
+    i = 0
+
+    # Run the agent in the environment until the environment signals it's done
+    while not env.is_done():
+        i = i+1
+        print("Steps {}".format(i))
+        # Perform a step in the environment
+        agent.steps(env)
+        # Print cumulative total reward
+        print(f"Total reward so far: {agent.total_reward:.4f}\n")
+
+    # Print the total reward accumulated by the agent
+    print("Total reward got: %.4f" % agent.total_reward)
