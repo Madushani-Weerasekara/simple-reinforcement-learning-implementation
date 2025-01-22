@@ -14,7 +14,13 @@ class SampleEnvironment:
         Return the list of possible actions in the environment.
         In this case, there are two possible actions: 0 and 1.
         """
-        return[0, 1] # List of possible actions
+        return[0.0, 0.0, 0.0] # List of possible actions
+    def get_actions(self)->List[int]:
+        """
+        Return the list of possible actions in the environment.
+        In this case, there are two possible actions: 0 and 1.
+        """
+        return[0, 1]
     def is_done(self)->bool:
         """
         Check if the environment is finished.
@@ -36,4 +42,32 @@ class SampleEnvironment:
         self.steps_left -+ 1
         return random.random() # Return a random reward between 0 and 1
     
-         
+
+# Define a class for an agent that interacts with the environment
+class Agent:
+    def __init__(self):
+        """
+        Initialize the agent with a total reward of 0.0.
+        """
+        self.total_reward = 0.0 # Initialize total reward
+
+    def steps(self, env:SampleEnvironment):
+        """
+        Perform a single step in the environment.
+        This includes observing the environment, deciding an action,
+        executing it, and updating the total reward.
+
+        :param env: The environment in which the agent is acting
+        """
+        # Get the current observation from the environment
+        curresnt_obs = env.get_observation()
+        print(curresnt_obs) # Print the current observation
+
+        # Get the list of possible actions from the environment
+        actions = env.get_actions()
+        print(actions) # Print the possible actions
+
+        reward = env.action(random.choice(actions))
+
+        # Add the received reward to the agent's total reward
+        self.total_reward += 1
